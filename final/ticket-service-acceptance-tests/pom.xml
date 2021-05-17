@@ -16,9 +16,26 @@
         <junit.version>5.7.1</junit.version>
         <guava.version>30.0-jre</guava.version>
         <slf4j.version>1.7.30</slf4j.version>
+        <spring.shell.version>2.0.0.RELEASE</spring.shell.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.shell</groupId>
+            <artifactId>spring-shell-starter</artifactId>
+            <version>${spring.shell.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
