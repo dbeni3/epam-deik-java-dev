@@ -27,8 +27,8 @@ public class UserCommand {
     @ShellMethod(value = "Sign in privileged", key = "sign in privileged")
     public String login(String username, String password) {
         return handleErrorScenario(() -> loginService.login(username, password),
-                (userDto) -> userDto.toString(),
-                "Wrong username or password");
+                (userDto) -> "Signed in with privileged account '" + userDto.getUsername() + "' ",
+                "Login failed due to incorrect credentials");
     }
 
     @ShellMethod(value = "sign out", key = "sign out")
@@ -37,6 +37,14 @@ public class UserCommand {
                 (userDto) -> userDto.getUsername() + " is logged out",
                 "You need to login first");
     }
+
+    @ShellMethod(value = "Describe Account", key = "describe account")
+    public String printLoggedInUser() {
+        return handleErrorScenario(() -> loginService.getLoggedInUser(),
+                (userDto) -> userDto.toString(),
+                "You are not signed in");
+    }
+
 
     private String handleErrorScenario(Supplier<Optional<UserDto>> supplier, Function<UserDto, String> successfulMessageProvider, String errorMessage) {
         Optional<UserDto> userDto = supplier.get();

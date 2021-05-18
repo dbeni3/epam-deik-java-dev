@@ -13,4 +13,9 @@ public interface RoomService {
     Optional<RoomDto> getRoomByName(String roomName);
 
     void createRoom(RoomDto room);
+
+    void updateRoom(RoomDto roomDto);
+
+    void deleteRoom(String roomDto);
+
 }

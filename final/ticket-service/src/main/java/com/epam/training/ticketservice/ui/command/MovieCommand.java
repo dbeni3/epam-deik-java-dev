@@ -21,19 +21,47 @@ public class MovieCommand extends AbstractAuthenticatedCommand {
     }
 
     @ShellMethod(value = "List Movies", key = "list movies")
-    public List<MovieDto> listMovies() {
-        return movieService.getMovieList();
+    public void listMovies() {
+        if ( movieService.getMovieList().isEmpty()){
+            System.out.println("There are no movies at the moment");
+        }else {
+            movieService.getMovieList()
+                    .forEach((m) ->
+                            System.out.println(
+                                    m.getName() + " (" + m.getGenre() + ", " + m.getLengthInMin() + " minutes)"));
+        }
     }
 
     @ShellMethodAvailability("admin")
     @ShellMethod(value = "Create Movie", key = "create movie")
     public MovieDto createMovie(String name, String genre, int lengthInMinutes) {
+        MovieDto movieDto = new MovieDto(name,genre,lengthInMinutes);
+        movieService.createMovie(movieDto);
+        return movieDto;
+    }
+
+    @ShellMethodAvailability("admin")
+    @ShellMethod(value = "Update Movie", key = "update movie")
+    public void updateMovie(String name, String genre, int lengthInMinutes) {
         MovieDto movieDto = new MovieDto(
                 name,
                 genre,
                 lengthInMinutes);
-        movieService.createMovie(movieDto);
-        return movieDto;
+        if (movieService.getMovieByName(movieDto.getName()).isEmpty()){
+            System.out.println("Movie does not exist");
+        }else{
+            movieService.updateMovie(movieDto);
+        }
+    }
+
+    @ShellMethodAvailability("admin")
+    @ShellMethod(value = "Delete Movie", key = "delete movie")
+    public void deleteMovie(String name) {
+        if (movieService.getMovieByName(name).isEmpty()){
+            System.out.println("Movie does not exist");
+        }else{
+            movieService.deleteMovie(name);
+        }
     }
 
 }

@@ -13,6 +13,9 @@ public interface MovieService {
 
     void createMovie(MovieDto movie);
 
+    void updateMovie(MovieDto movieDto);
+
+    void deleteMovie(String movieDto);
 
 
 }
