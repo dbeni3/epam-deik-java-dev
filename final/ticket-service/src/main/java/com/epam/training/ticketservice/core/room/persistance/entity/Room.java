@@ -47,7 +47,8 @@ public class Room {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
-        return numberOfRows == room.numberOfRows && numberOfColumns == room.numberOfColumns && Objects.equals(id, room.id) && Objects.equals(name, room.name);
+        return numberOfRows == room.numberOfRows && numberOfColumns == room.numberOfColumns
+                && Objects.equals(id, room.id) && Objects.equals(name, room.name);
     }
 
     @Override

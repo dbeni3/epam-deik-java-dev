@@ -65,7 +65,8 @@ public class Screening {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Screening screening = (Screening) o;
-        return Objects.equals(id, screening.id) && Objects.equals(movie, screening.movie) && Objects.equals(room, screening.room) && Objects.equals(date, screening.date);
+        return Objects.equals(id, screening.id) && Objects.equals(movie, screening.movie)
+                && Objects.equals(room, screening.room) && Objects.equals(date, screening.date);
     }
 
     @Override

@@ -18,7 +18,9 @@ public class InMemoryDbInitializer {
     private final MovieRepository movieRepository;
     private final RoomRepository roomRepository;
 
-    public InMemoryDbInitializer(UserRepository userRepository, MovieRepository movieRepository, RoomRepository roomRepository) {
+    public InMemoryDbInitializer(UserRepository userRepository,
+                                 MovieRepository movieRepository,
+                                 RoomRepository roomRepository) {
         this.userRepository = userRepository;
         this.movieRepository = movieRepository;
         this.roomRepository = roomRepository;
@@ -27,12 +29,12 @@ public class InMemoryDbInitializer {
 
     @PostConstruct
     public void init() {
-        Movie aRemenyRabjai = new Movie(null, "A remény rabjai", "Drama", 142);
-        Movie aKeresztapa = new Movie(null, "A keresztapa", "Drama", 100);
+        Movie movie1 = new Movie(null, "A remény rabjai", "Drama", 142);
+        Movie movie2 = new Movie(null, "A keresztapa", "Drama", 100);
         Movie one = new Movie(null, "one", "Drama", 100);
         Room west = new Room(null,"West",10,10);
         Room east = new Room(null,"East",8,13);
-        movieRepository.saveAll(List.of(one,aKeresztapa,aRemenyRabjai));
+        movieRepository.saveAll(List.of(one,movie1,movie2));
         roomRepository.saveAll(List.of(west,east));
 
         User admin = new User(null, "admin", "admin", User.Role.ADMIN);

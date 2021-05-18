@@ -22,7 +22,9 @@
         <surefire-maven-plugin.version>3.0.0-M5</surefire-maven-plugin.version>
         <junit.version>5.7.1</junit.version>
         <spring.shell.version>2.0.0.RELEASE</spring.shell.version>
+
     </properties>
+
 
     <dependencies>
         <dependency>
@@ -53,7 +55,6 @@
             <scope>runtime</scope>
         </dependency>
 
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -68,12 +69,20 @@
         </dependency>
     </dependencies>
     <dependencyManagement>
-
+        <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.4.4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
