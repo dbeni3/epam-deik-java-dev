@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     Optional<Movie> findByName(String name);
+
     Integer deleteByName(String name);
 }

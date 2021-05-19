@@ -25,8 +25,12 @@ public class UserDto {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         UserDto userDto = (UserDto) o;
         return Objects.equals(username, userDto.username) && role == userDto.role;
     }
@@ -38,10 +42,7 @@ public class UserDto {
 
     @Override
     public String toString() {
-        return "UserDto{" +
-                "username='" + username + '\'' +
-                ", role=" + role +
-                '}';
+        return "UserDto{" + "username='" + username + '\'' + ", role=" + role + '}';
     }
 
 }

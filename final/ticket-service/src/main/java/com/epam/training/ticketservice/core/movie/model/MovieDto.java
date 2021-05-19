@@ -14,18 +14,29 @@ public class MovieDto {
         this.lengthInMin = lengthInMin;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getGenre() { return genre; }
+    public String getGenre() {
+        return genre;
+    }
 
-    public int getLengthInMin() { return lengthInMin; }
+    public int getLengthInMin() {
+        return lengthInMin;
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         MovieDto movieDto = (MovieDto) o;
-        return Double.compare(movieDto.lengthInMin, lengthInMin) == 0 && Objects.equals(name, movieDto.name) && Objects.equals(genre, movieDto.genre);
+        return Double.compare(movieDto.lengthInMin, lengthInMin) == 0
+                && Objects.equals(name, movieDto.name) && Objects.equals(genre, movieDto.genre);
     }
 
     @Override
@@ -35,10 +46,6 @@ public class MovieDto {
 
     @Override
     public String toString() {
-        return "MovieDto{" +
-                "name='" + name + '\'' +
-                ", genre='" + genre + '\'' +
-                ", lengthInMin=" + lengthInMin +
-                '}';
+        return "MovieDto{" + "name='" + name + '\'' + ", genre='" + genre + '\'' + ", lengthInMin=" + lengthInMin + '}';
     }
 }

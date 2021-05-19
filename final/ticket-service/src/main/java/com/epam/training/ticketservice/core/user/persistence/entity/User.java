@@ -1,6 +1,12 @@
 package com.epam.training.ticketservice.core.user.persistence.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import java.util.Objects;
 
 @Entity
@@ -23,6 +29,7 @@ public class User {
         this.password = password;
         this.role = role;
     }
+
     public Integer getId() {
         return id;
     }
@@ -57,10 +64,15 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && role == user.role;
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username)
+                && Objects.equals(password, user.password) && role == user.role;
     }
 
     @Override
@@ -70,12 +82,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
+        return "User{" + "id=" + id + ", username='" + username
+                + '\'' + ", password='" + password + '\'' + ", role=" + role + '}';
     }
 
     public static enum Role {

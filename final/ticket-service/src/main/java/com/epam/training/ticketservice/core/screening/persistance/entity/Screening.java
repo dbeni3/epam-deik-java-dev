@@ -3,7 +3,11 @@ package com.epam.training.ticketservice.core.screening.persistance.entity;
 import com.epam.training.ticketservice.core.movie.persistance.entity.Movie;
 import com.epam.training.ticketservice.core.room.persistance.entity.Room;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 import java.util.Objects;
 
@@ -62,8 +66,12 @@ public class Screening {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Screening screening = (Screening) o;
         return Objects.equals(id, screening.id) && Objects.equals(movie, screening.movie)
                 && Objects.equals(room, screening.room) && Objects.equals(date, screening.date);
@@ -76,11 +84,7 @@ public class Screening {
 
     @Override
     public String toString() {
-        return "Screening{" +
-                "id=" + id +
-                ", movie=" + movie +
-                ", room=" + room +
-                ", date=" + date +
-                '}';
+        return "Screening{" + "id=" + id + ", movie=" + movie + ", room=" + room
+                + ", date=" + date + '}';
     }
 }

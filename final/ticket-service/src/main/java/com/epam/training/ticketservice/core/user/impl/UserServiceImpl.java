@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     private Optional<UserDto> convertToDto(Optional<User> user) {
         Optional<UserDto> userDto = Optional.empty();
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             userDto = Optional.of(convertToDto(user.get()));
         }
         return userDto;

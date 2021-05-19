@@ -1,10 +1,14 @@
 package com.epam.training.ticketservice.core.screening;
 
-import com.epam.training.ticketservice.core.movie.model.MovieDto;
 
-import com.epam.training.ticketservice.core.room.model.RoomDto;
 import com.epam.training.ticketservice.core.screening.model.ScreeningDto;
 
+import java.util.List;
+
 public interface ScreeningService {
+
     void createScreening(ScreeningDto screeningDto);
+
+    List<ScreeningDto> getScreeningList();
+
 }

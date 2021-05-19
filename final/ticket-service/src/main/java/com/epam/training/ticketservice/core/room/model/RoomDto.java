@@ -28,10 +28,15 @@ public class RoomDto {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         RoomDto roomDto = (RoomDto) o;
-        return numbersOfRows == roomDto.numbersOfRows && numbersOfColumns == roomDto.numbersOfColumns && Objects.equals(name, roomDto.name);
+        return numbersOfRows == roomDto.numbersOfRows
+                && numbersOfColumns == roomDto.numbersOfColumns && Objects.equals(name, roomDto.name);
     }
 
     @Override
@@ -41,10 +46,7 @@ public class RoomDto {
 
     @Override
     public String toString() {
-        return "RoomDto{" +
-                "name='" + name + '\'' +
-                ", numbersOfRows=" + numbersOfRows +
-                ", numbersOfColumns=" + numbersOfColumns +
-                '}';
+        return "RoomDto{" + "name='" + name + '\'' + ", numbersOfRows=" + numbersOfRows
+                + ", numbersOfColumns=" + numbersOfColumns + '}';
     }
 }

@@ -1,6 +1,10 @@
 package com.epam.training.ticketservice.core.movie.persistance.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Column;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +20,7 @@ public class Movie {
     public Movie(){
 
     }
+
     public Movie(Integer id, String name, String genre, int lengthInMinutes) {
         this.id = id;
         this.name = name;
@@ -57,10 +62,15 @@ public class Movie {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Movie movie = (Movie) o;
-        return lengthInMinutes == movie.lengthInMinutes && Objects.equals(id, movie.id) && Objects.equals(name, movie.name) && Objects.equals(genre, movie.genre);
+        return lengthInMinutes == movie.lengthInMinutes && Objects.equals(id, movie.id)
+                && Objects.equals(name, movie.name) && Objects.equals(genre, movie.genre);
     }
 
     @Override
@@ -70,11 +80,7 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", genre='" + genre + '\'' +
-                ", lengthInMinutes=" + lengthInMinutes +
-                '}';
+        return "Movie{" + "id=" + id + ", name='" + name + '\'' + ", genre='" + genre
+                + '\'' + ", lengthInMinutes=" + lengthInMinutes + '}';
     }
 }

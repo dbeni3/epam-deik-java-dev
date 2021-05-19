@@ -11,7 +11,6 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 
-import java.io.Console;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,31 +23,49 @@ public class ScreeningCommand extends AbstractAuthenticatedCommand {
     private final MovieService movieService;
     private final RoomService roomService;
 
-    public ScreeningCommand(LoginService loginService, ScreeningService screeningService, MovieService movieService, RoomService roomService) {
+    public ScreeningCommand(LoginService loginService,
+                            ScreeningService screeningService,
+                            MovieService movieService,
+                            RoomService roomService) {
         super(loginService);
         this.screeningService = screeningService;
         this.movieService = movieService;
         this.roomService = roomService;
     }
 
-    //Még le kell kezelni ha nem létezik az adatbázisban az input movie or room
+    @ShellMethod(value = "List Screenings", key = "list screenings")
+    public void listScreenings() {
+        if (screeningService.getScreeningList().isEmpty()) {
+            System.out.println("There are no screenings");
+        } else {
+            screeningService.getScreeningList()
+                    .forEach((m) ->
+                            System.out.println(
+                                    m.getMovie().getName() + " (" + m.getMovie().getGenre() + ", "
+                                    + m.getMovie().getLengthInMin() + " minutes), screened in room "
+                                    + m.getRoom().getName() + ", at " + m.getDate().toString()
+                            ));
+        }
+    }
+
     @ShellMethodAvailability("admin")
     @ShellMethod(value = "create Screening", key = "create screening")
-    public ScreeningDto createScreening(String movieName, String roomName, String sDate) {
+    public void createScreening(String movieName, String roomName, String inputDate) {
         Optional<MovieDto> optionalMovie = movieService.getMovieByName(movieName);
-
         Optional<RoomDto> optionalRoom = roomService.getRoomByName(roomName);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = new Date();
         try {
-            date = formatter.parse(sDate);
+            date = formatter.parse(inputDate);
         } catch (ParseException exception) {
             System.out.println("Time format is yyyy-MM-dd hh:mm");
         }
-        ScreeningDto screeningDto = new ScreeningDto(optionalMovie.get(),optionalRoom.get(),date);
-
-        screeningService.createScreening(screeningDto);
-        return screeningDto;
+        if (optionalMovie.isEmpty() || optionalRoom.isEmpty()) {
+            System.out.println("Movie or room does not exist");
+        } else {
+            ScreeningDto screeningDto = new ScreeningDto(optionalMovie.get(),optionalRoom.get(),date);
+            screeningService.createScreening(screeningDto);
+        }
     }
 
 }

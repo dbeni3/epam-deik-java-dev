@@ -19,18 +19,20 @@ public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
 
-   public MovieServiceImpl(MovieRepository movieRepository){
-       this.movieRepository = movieRepository;
-   }
+    public MovieServiceImpl(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
+    }
 
-   @Override
-   public List<MovieDto> getMovieList(){
-       return movieRepository.findAll().stream().map(this::convertEntityToDto).collect(Collectors.toList());
-   }
+    @Override
+    public List<MovieDto> getMovieList() {
+        return movieRepository.findAll().stream().map(this::convertEntityToDto).collect(Collectors.toList());
+    }
+
     @Override
     public Optional<MovieDto> getMovieByName(String movieName) {
         return convertEntityToDto(movieRepository.findByName(movieName));
     }
+
     @Override
     public void createMovie(MovieDto movieDto) {
         Objects.requireNonNull(movieDto, "Movie cannot be null");
@@ -43,25 +45,25 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void updateMovie(MovieDto movieDto){
+    public void updateMovie(MovieDto movieDto) {
         Objects.requireNonNull(movieDto, "Movie cannot be null");
         Objects.requireNonNull(movieDto.getName(), "Movie Name cannot be null");
-        Movie movieToChange = movieRepository.findByName(movieDto.getName()).get();
+        Movie movieToChange = movieRepository.findByName(movieDto.getName())
+                .orElseThrow(() -> new IllegalArgumentException("The given movie does not exist"));
         movieToChange.setGenre(movieDto.getGenre());
         movieToChange.setLengthInMinutes(movieDto.getLengthInMin());
         movieRepository.save(movieToChange);
     }
 
     @Override
-    public void deleteMovie(String movieName){
+    public void deleteMovie(String movieName) {
         Objects.requireNonNull(movieName, "Movie name cannot be null");
         movieRepository.deleteByName(movieName);
     }
 
-
     private Optional<MovieDto> convertEntityToDto(Optional<Movie> movie) {
         Optional<MovieDto> movieDto;
-        if(movie.isEmpty()) {
+        if (movie.isEmpty()) {
             movieDto = Optional.empty();
         } else {
             movieDto = Optional.of(convertEntityToDto(movie.get()));

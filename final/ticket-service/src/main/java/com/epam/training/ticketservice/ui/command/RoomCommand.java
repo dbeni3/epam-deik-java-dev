@@ -1,6 +1,5 @@
 package com.epam.training.ticketservice.ui.command;
 
-import com.epam.training.ticketservice.core.movie.model.MovieDto;
 import com.epam.training.ticketservice.core.room.RoomService;
 import com.epam.training.ticketservice.core.room.model.RoomDto;
 import com.epam.training.ticketservice.core.user.LoginService;
@@ -8,10 +7,9 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 
-import java.util.List;
 
 @ShellComponent
-public class RoomCommand extends AbstractAuthenticatedCommand{
+public class RoomCommand extends AbstractAuthenticatedCommand {
 
     private final RoomService roomService;
 
@@ -24,14 +22,14 @@ public class RoomCommand extends AbstractAuthenticatedCommand{
     public void listRooms() {
         if (roomService.getRoomList().isEmpty()) {
             System.out.println("There are no rooms at the moment");
-        }else {
+        } else {
             roomService.getRoomList()
                     .forEach((m) ->
-                            System.out.println( "Room " +
-                                    m.getName() + " with " +
-                                    m.getNumbersOfColumns()*m.getNumbersOfRows() + " seats, " +
-                                    m.getNumbersOfRows() + " rows and " +
-                                    m.getNumbersOfColumns() + " columns"
+                            System.out.println("Room "
+                                    + m.getName() + " with "
+                                    + m.getNumbersOfColumns() * m.getNumbersOfRows() + " seats, "
+                                    + m.getNumbersOfRows() + " rows and "
+                                    + m.getNumbersOfColumns() + " columns"
                             ));
         }
     }
@@ -43,6 +41,7 @@ public class RoomCommand extends AbstractAuthenticatedCommand{
         roomService.createRoom(roomDto);
         return roomDto;
     }
+
     @ShellMethodAvailability("admin")
     @ShellMethod(value = "Update Room", key = "update room")
     public void updateMovie(String name, int numberOfRows, int numberOfColumns) {
@@ -50,9 +49,9 @@ public class RoomCommand extends AbstractAuthenticatedCommand{
                 name,
                 numberOfRows,
                 numberOfColumns);
-        if (roomService.getRoomByName(roomDto.getName()).isEmpty()){
+        if (roomService.getRoomByName(roomDto.getName()).isEmpty()) {
             System.out.println("Room does not exist");
-        }else{
+        } else {
             roomService.updateRoom(roomDto);
         }
     }
@@ -60,9 +59,9 @@ public class RoomCommand extends AbstractAuthenticatedCommand{
     @ShellMethodAvailability("admin")
     @ShellMethod(value = "Delete Room", key = "delete room")
     public void deleteMovie(String name) {
-        if (roomService.getRoomByName(name).isEmpty()){
+        if (roomService.getRoomByName(name).isEmpty()) {
             System.out.println("Room does not exist");
-        }else{
+        } else {
             roomService.deleteRoom(name);
         }
     }

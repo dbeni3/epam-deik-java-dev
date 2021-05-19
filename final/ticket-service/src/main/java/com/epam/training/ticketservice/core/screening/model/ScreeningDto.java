@@ -34,8 +34,12 @@ public class ScreeningDto {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) { return true;}
-        if (o == null || getClass() != o.getClass()) { return false;}
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ScreeningDto that = (ScreeningDto) o;
         return Objects.equals(movie, that.movie) && Objects.equals(room, that.room) && Objects.equals(date, that.date);
     }
