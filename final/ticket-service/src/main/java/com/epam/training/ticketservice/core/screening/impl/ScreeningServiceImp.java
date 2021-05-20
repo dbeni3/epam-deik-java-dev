@@ -56,7 +56,6 @@ public class ScreeningServiceImp implements ScreeningService {
     }
 
 
-
     private boolean isRoomEmpty(Screening screening) {
         List<ScreeningDto> screeningList = screeningRepository
                 .findAll().stream().map(this::convertEntityToDto)

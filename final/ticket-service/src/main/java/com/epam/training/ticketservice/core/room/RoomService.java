@@ -16,6 +16,6 @@ public interface RoomService {
 
     void updateRoom(RoomDto roomDto);
 
-    void deleteRoom(String roomDto);
+    void deleteRoom(String roomName);
 
 }

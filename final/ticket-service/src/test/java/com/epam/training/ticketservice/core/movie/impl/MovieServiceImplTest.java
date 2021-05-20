@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.Currency;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +16,11 @@ public class MovieServiceImplTest {
 
     private final String one = "one";
     private final String drama = "drama";
-    private final int movieLenght = 100;
-    private final Movie oneMovie = new Movie(null,one,drama,movieLenght);
+    private final int movieLength = 100;
+    private final Movie oneMovie = new Movie(null,one,drama, movieLength);
     private final Movie twoMovie = new Movie(null,"two","drama",101);
 
-    private final MovieDto oneDto = new MovieDto(one,drama,movieLenght);
+    private final MovieDto oneDto = new MovieDto(one,drama, movieLength);
     private final MovieDto twoDto = new MovieDto("two","drama",101);
 
     private MovieServiceImpl underTest;
@@ -49,7 +49,7 @@ public class MovieServiceImplTest {
     }
 
     @Test
-    public void testGetMovieByNameShouldReturnAOneDtoWhenTheProductExists() {
+    public void testGetMovieByNameShouldReturnAOneDtoWhenTheMovieExists() {
         // Given
         Mockito.when(movieRepository.findByName(one)).thenReturn(Optional.of(oneMovie));
         Optional<MovieDto> expected = Optional.of(oneDto);
@@ -63,7 +63,7 @@ public class MovieServiceImplTest {
         Mockito.verifyNoMoreInteractions(movieRepository);
     }
     @Test
-    public void testGetProductByNameShouldReturnOptionalEmptyWhenInputProductNameDoesNotExist() {
+    public void testGetMovieByNameShouldReturnOptionalEmptyWhenInputMovieNameDoesNotExist() {
         // Given
         Mockito.when(movieRepository.findByName(one)).thenReturn(Optional.empty());
         Optional<MovieDto> expected = Optional.empty();
@@ -79,7 +79,7 @@ public class MovieServiceImplTest {
     }
 
     @Test
-    public void testGetProductByNameShouldReturnOptionalEmptyWhenInputProductNameIsNull() {
+    public void testGetMovieByNameShouldReturnOptionalEmptyWhenInputMovieNameIsNull() {
         // Given
         Mockito.when(movieRepository.findByName(null)).thenReturn(Optional.empty());
         Optional<MovieDto> expected = Optional.empty();
@@ -95,7 +95,7 @@ public class MovieServiceImplTest {
     }
 
     @Test
-    public void testCreateProductShouldCallProductRepositoryWhenTheInputProductIsValid() {
+    public void testCreateMovieShouldCallMovieRepositoryWhenTheInputMovieIsValid() {
         // Given
         Mockito.when(movieRepository.save(oneMovie)).thenReturn(oneMovie);
 
@@ -108,7 +108,7 @@ public class MovieServiceImplTest {
     }
 
     @Test
-    public void testCreateProductShouldThrowNullPointerExceptionWhenProductIsNull() {
+    public void testCreateMovieShouldThrowNullPointerExceptionWhenMovieIsNull() {
         // Given
 
         // When
@@ -119,7 +119,7 @@ public class MovieServiceImplTest {
     }
 
     @Test
-    public void testCreateProductShouldThrowNullPointerExceptionWhenProductNameIsNull() {
+    public void testCreateMovieShouldThrowNullPointerExceptionWhenMovieNameIsNull() {
         // Given
         MovieDto movieDto = new MovieDto(null,"d",100);
 
@@ -131,8 +131,71 @@ public class MovieServiceImplTest {
         Mockito.verifyNoMoreInteractions(movieRepository);
     }
 
-    //UPDATEMOVIE
-    //DELETEMOVIE
+
+    @Test
+    public void testDeleteMovieShouldCallMovieRepositoryWhenTheInputMovieIsValid() {
+        // Given
+        Mockito.when(movieRepository.save(oneMovie)).thenReturn(oneMovie);
+
+        // When
+        underTest.deleteMovie(one);
+
+        // Then
+        Mockito.verify(movieRepository).deleteByName(one);
+        Mockito.verifyNoMoreInteractions(movieRepository);
+    }
+
+    @Test
+    public void testDeleteMovieShouldThrowNullPointerExceptionWhenMovieNameIsNull() {
+        // Given
+
+
+        // When
+        Assertions.assertThrows(NullPointerException.class, () -> underTest.deleteMovie(null));
+
+        // Then
+        Mockito.verifyNoMoreInteractions(movieRepository);
+    }
+
+
+    @Test
+    public void testUpdateMovieShouldCallMovieRepositoryWhenTheInputMovieIsValid(){
+        // Given
+        Mockito.when(movieRepository.save(oneMovie)).thenReturn(oneMovie);
+        Mockito.when(movieRepository.findByName(one)).thenReturn(Optional.of(oneMovie));
+
+        // When
+        underTest.updateMovie(oneDto);
+
+        // Then
+        Mockito.verify(movieRepository).findByName(one);
+        Mockito.verify(movieRepository).save(oneMovie);
+        Mockito.verifyNoMoreInteractions(movieRepository);
+    }
+
+    @Test
+    public void testUpdateMovieShouldThrowNullPointerExceptionWhenMovieIsNull() {
+        // Given
+
+
+        // When
+        Assertions.assertThrows(NullPointerException.class, () -> underTest.updateMovie(null));
+
+        // Then
+        Mockito.verifyNoMoreInteractions(movieRepository);
+    }
+
+    @Test
+    public void testUpdateMovieShouldThrowNullPointerExceptionWhenMovieNameIsNull() {
+        // Given
+        MovieDto movieDto = new MovieDto(null,"d",100);
+
+        // When
+        Assertions.assertThrows(NullPointerException.class, () -> underTest.updateMovie(movieDto));
+
+        // Then
+        Mockito.verifyNoMoreInteractions(movieRepository);
+    }
 
 
 }

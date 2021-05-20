@@ -40,7 +40,6 @@ public class RoomServiceImpl implements RoomService {
                 roomDto.getName(),
                 roomDto.getNumbersOfRows(),
                 roomDto.getNumbersOfColumns());
-
         roomRepository.save(room);
     }
 
