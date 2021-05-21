@@ -36,10 +36,9 @@ public class RoomCommand extends AbstractAuthenticatedCommand {
 
     @ShellMethodAvailability("admin")
     @ShellMethod(value = "create Room", key = "create room")
-    public RoomDto createRoom(String name, int numberOfRows, int numberOfColumns) {
+    public void createRoom(String name, int numberOfRows, int numberOfColumns) {
         RoomDto roomDto = new RoomDto(name,numberOfRows,numberOfColumns);
         roomService.createRoom(roomDto);
-        return roomDto;
     }
 
     @ShellMethodAvailability("admin")

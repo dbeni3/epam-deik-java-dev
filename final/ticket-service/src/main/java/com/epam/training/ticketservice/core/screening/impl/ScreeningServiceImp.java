@@ -13,6 +13,8 @@ import com.epam.training.ticketservice.core.screening.persistance.repository.Scr
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +27,8 @@ public class ScreeningServiceImp implements ScreeningService {
     private final ScreeningRepository screeningRepository;
     private final MovieRepository movieRepository;
     private final RoomRepository roomRepository;
+    String pattern = "yyyy-MM-dd HH:mm";
+    DateFormat df = new SimpleDateFormat(pattern);
 
     public ScreeningServiceImp(ScreeningRepository screeningRepository,
                                MovieRepository movieRepository, RoomRepository roomRepository) {
@@ -55,6 +59,17 @@ public class ScreeningServiceImp implements ScreeningService {
         }
     }
 
+
+    @Override
+    public void deleteScreening(ScreeningDto screeningDto) {
+        Objects.requireNonNull(screeningDto.getRoom().getName(), "Room name cannot be null");
+        Objects.requireNonNull(screeningDto.getDate(), "Date cannot be null");
+        Objects.requireNonNull(screeningDto.getMovie().getName(), "Movie name cannot be null");
+        List<Screening> screening = screeningRepository.findAll().stream()
+                .filter(s -> df.format(s.getDate()).compareTo(df.format(screeningDto.getDate())) == 0
+                        && s.getRoom().getName().equals(screeningDto.getRoom().getName())).collect(Collectors.toList());
+        screeningRepository.delete(screening.get(0));
+    }
 
     private boolean isRoomEmpty(Screening screening) {
         List<ScreeningDto> screeningList = screeningRepository

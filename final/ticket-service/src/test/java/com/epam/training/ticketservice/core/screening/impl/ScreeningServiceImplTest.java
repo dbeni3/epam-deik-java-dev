@@ -172,6 +172,31 @@ public class ScreeningServiceImplTest {
         Mockito.verifyNoMoreInteractions(screeningRepository);
     }
 
+    @Test
+    public void testDeleteScreeningShouldCallScreeningRepositoryWhenTheInputScreeningIsValid() {
+        // Given
+        Mockito.when(screeningRepository.findAll()).thenReturn(List.of(screening));
+
+        // When
+        underTest.deleteScreening(screeningDto);
+
+        // Then
+        Mockito.verify(screeningRepository).findAll();
+        Mockito.verify(screeningRepository).delete(screening);
+        Mockito.verifyNoMoreInteractions(screeningRepository);
+    }
+
+    @Test
+    public void testDeleteScreeningShouldThrowNullPointerExceptionWhenScreeningIsNull() {
+        // Given
+
+
+        // When
+        Assertions.assertThrows(NullPointerException.class, () -> underTest.deleteScreening(null));
+
+        // Then
+        Mockito.verifyNoMoreInteractions(movieRepository);
+    }
 
 
 

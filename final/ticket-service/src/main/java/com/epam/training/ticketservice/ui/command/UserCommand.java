@@ -41,7 +41,7 @@ public class UserCommand {
     @ShellMethod(value = "Describe Account", key = "describe account")
     public String printLoggedInUser() {
         return handleErrorScenario(loginService::getLoggedInUser,
-            (userDto) -> "Signed in with privileged account " + userDto.getUsername(),
+            (userDto) -> "Signed in with privileged account '" + userDto.getUsername() + "'",
             "You are not signed in");
     }
 

@@ -11,6 +11,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,6 +23,7 @@ public class ScreeningCommand extends AbstractAuthenticatedCommand {
     private final ScreeningService screeningService;
     private final MovieService movieService;
     private final RoomService roomService;
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     public ScreeningCommand(LoginService loginService,
                             ScreeningService screeningService,
@@ -38,12 +40,14 @@ public class ScreeningCommand extends AbstractAuthenticatedCommand {
         if (screeningService.getScreeningList().isEmpty()) {
             System.out.println("There are no screenings");
         } else {
+            String pattern = "yyyy-MM-dd HH:mm";
+            DateFormat df = new SimpleDateFormat(pattern);
             screeningService.getScreeningList()
                     .forEach((m) ->
                             System.out.println(
                                     m.getMovie().getName() + " (" + m.getMovie().getGenre() + ", "
                                     + m.getMovie().getLengthInMin() + " minutes), screened in room "
-                                    + m.getRoom().getName() + ", at " + m.getDate().toString()
+                                    + m.getRoom().getName() + ", at " + df.format(m.getDate())
                             ));
         }
     }
@@ -53,7 +57,27 @@ public class ScreeningCommand extends AbstractAuthenticatedCommand {
     public void createScreening(String movieName, String roomName, String inputDate) {
         Optional<MovieDto> optionalMovie = movieService.getMovieByName(movieName);
         Optional<RoomDto> optionalRoom = roomService.getRoomByName(roomName);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date;
+        try {
+            date = formatter.parse(inputDate);
+            if (optionalMovie.isEmpty() || optionalRoom.isEmpty()) {
+                System.out.println("Movie or room does not exist");
+            } else {
+
+                ScreeningDto screeningDto = new ScreeningDto(optionalMovie.get(),optionalRoom.get(),date);
+                screeningService.createScreening(screeningDto);
+            }
+        } catch (ParseException exception) {
+            System.out.println("Time format is yyyy-MM-dd hh:mm");
+        }
+
+    }
+
+    @ShellMethodAvailability("admin")
+    @ShellMethod(value = "delete Screening", key = "delete screening")
+    public void deleteScreening(String movieName, String roomName, String inputDate) {
+        Optional<MovieDto> optionalMovie = movieService.getMovieByName(movieName);
+        Optional<RoomDto> optionalRoom = roomService.getRoomByName(roomName);
         Date date = new Date();
         try {
             date = formatter.parse(inputDate);
@@ -64,8 +88,7 @@ public class ScreeningCommand extends AbstractAuthenticatedCommand {
             System.out.println("Movie or room does not exist");
         } else {
             ScreeningDto screeningDto = new ScreeningDto(optionalMovie.get(),optionalRoom.get(),date);
-            screeningService.createScreening(screeningDto);
+            screeningService.deleteScreening(screeningDto);
         }
     }
-
 }
